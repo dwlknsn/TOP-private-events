@@ -2,10 +2,34 @@
 
 <% content_for :title, "Events" %>
 
-<h1>Events</h1>
+<h1>Hosted Events</h1>
 
-<div id="events">
-  <% @events.each do |event| %>
+<div id="hosted_events">
+  <% @events[:hosted].each do |event| %>
+    <ul>
+      <li>
+        <%= link_to(event.name, event) %> - <%= event.datetime %>
+      </li>
+    </ul>
+  <% end %>
+</div>
+
+<h1>Attended Events</h1>
+
+<div id="attended_events">
+  <% @events[:attended].each do |event| %>
+    <ul>
+      <li>
+        <%= link_to(event.name, event) %> - <%= event.datetime %>
+      </li>
+    </ul>
+  <% end %>
+</div>
+
+<h1>Attendable Events</h1>
+
+<div id="attendable_events">
+  <% @events[:attendable].each do |event| %>
     <ul>
       <li>
         <%= link_to(event.name, event) %> - <%= event.datetime %>

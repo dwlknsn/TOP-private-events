@@ -4,7 +4,11 @@ class EventsController < ApplicationController
   respond_to :html
 
   def index
-    @events = Event.all
+    @events = {
+      hosted: Event.hosted_by(@user),
+      attended: Event.attended_by(@user),
+      attendable: Event.attendable_by(@user)
+    }
     respond_with(@events)
   end
 

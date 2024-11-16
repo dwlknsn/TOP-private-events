@@ -8,6 +8,8 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
+puts "Seeding Database with Users, Events, and Sign Ups"
+
 u1 = User.create!(email: "a@a.com", password: "password")
 u2 = User.create!(email: "b@b.com", password: "password")
 u3 = User.create!(email: "c@c.com", password: "password")
