@@ -23,4 +23,10 @@
     <%= event.host.email %>
   </p>
 
+  <p>
+    <strong>Attendees:</strong>
+    <%= event.attendees.count %>
+  </p>
+
+  <%= render "sign_ups/new", event: event %>
 </div>

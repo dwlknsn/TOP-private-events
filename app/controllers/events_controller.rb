@@ -21,7 +21,7 @@ class EventsController < ApplicationController
   end
 
   def create
-    @event = @user.hosted_events.new(event_params)
+    @event = @user.hosted_events.build(event_params)
     @event.save
     respond_with(@event)
   end
@@ -42,6 +42,6 @@ class EventsController < ApplicationController
     end
 
     def event_params
-      params.require(:event).permit(:date, :time, :location, :name, :description)
+      params.require(:event).permit(:datetime, :location, :name, :description)
     end
 end
