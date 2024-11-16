@@ -1,19 +1,21 @@
 class EventsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_event, only: [ :show, :edit, :update, :destroy ]
 
   respond_to :html
 
   def index
     @events = {
-      hosted: Event.hosted_by(@user),
-      attended: Event.attended_by(@user),
-      attendable: Event.attendable_by(@user)
+      hosted: Event.hosted_by(current_user),
+      attended: Event.attended_by(current_user),
+      attendable: Event.attendable_by(current_user)
     }
     respond_with(@events)
   end
 
   def show
-    respond_with(@event)
+    @sign_up = @event.sign_ups.where(attendee_id: current_user.id).take
+    respond_with(@event, @sign_up)
   end
 
   def new
@@ -25,7 +27,7 @@ class EventsController < ApplicationController
   end
 
   def create
-    @event = @user.hosted_events.build(event_params)
+    @event = current_user.hosted_events.build(event_params)
     @event.save
     respond_with(@event)
   end

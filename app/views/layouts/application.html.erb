@@ -24,9 +24,20 @@
   </head>
 
   <body>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+    <% if signed_in? %>
+      <%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete }%>
+    <% end %>
+
+    <%# Display flash messages %>
+    <% if flash.any? %>
+      <% flash.each do |type, message| %>
+        <div class="flash <%= type %>">
+        <p><%= message %></p>
+        </div>
+      <% end %>
+    <% end %>
 
     <%= yield %>
+
   </body>
 </html>

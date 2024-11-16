@@ -1,10 +1,49 @@
-<p style="color: green"><%= notice %></p>
+<div>
+  <%= link_to "Back to events", events_path %>
+<div>
 
-<%= render @event %>
+<div id="<%= dom_id @event %>">
+  <h3>
+    <%= @event.name %>
+  </h3>
+
+  <p>
+    <strong>What:</strong>
+    <%= @event.description %>
+  </p>
+
+  <p>
+    <strong>When:</strong>
+    <%= @event.datetime %>
+  </p>
+
+  <p>
+    <strong>Where:</strong>
+    <%= @event.location %>
+  </p>
+
+  <p>
+    <strong>Host:</strong>
+    <%= @event.host.email %>
+  </p>
+
+  <p>
+    <strong>Attendees:</strong>
+    <%= @event.attendees.count %>
+  </p>
+</div>
 
 <div>
-  <%= link_to "Edit this event", edit_event_path(@event) %> |
-  <%= link_to "Back to events", events_path %>
+  <% if @event.attendable_by?(current_user) %>
+    <%= render "sign_ups/new", event: @event %>
+  <% elsif @event.attended_by?(current_user)%>
+    <%= button_to "Cancel attendance", event_sign_up_path(@event, @sign_up), method: :delete %>
+  <% end %>
+</div>
 
-  <%= button_to "Destroy this event", @event, method: :delete %>
+<div>
+  <% if @event.owned_by?(current_user) %>
+    <%= link_to "Edit this event", edit_event_path(@event) %> |
+    <%= link_to "Destroy this event", @event, data: { turbo_method: :delete } %>
+  <% end %>
 </div>
