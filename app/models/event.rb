@@ -6,4 +6,7 @@ class Event < ApplicationRecord
 
   has_many :sign_ups
   has_many :attendees, through: :sign_ups
+
+  validates :name, presence: true
+  validates :description, presence: true
 end
