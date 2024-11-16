@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date: 2024-11-16
+  time: 2024-11-16 11:38:40
+  location: MyText
+  host: one
+
+two:
+  date: 2024-11-16
+  time: 2024-11-16 11:38:40
+  location: MyText
+  host: two
