@@ -1,6 +1,7 @@
 class EventsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_event, only: [ :show, :edit, :update, :destroy ]
+  before_action :authorise_user!, only: [ :edit, :update, :destroy ]
 
   respond_to :html
 
@@ -43,11 +44,18 @@ class EventsController < ApplicationController
   end
 
   private
-    def set_event
-      @event = Event.find(params[:id])
-    end
 
-    def event_params
-      params.require(:event).permit(:datetime, :location, :name, :description)
-    end
+  def set_event
+    @event ||= Event.find(params[:id])
+  end
+
+  def event_params
+    params.require(:event).permit(:datetime, :location, :name, :description)
+  end
+
+  def authorise_user!
+    return if @event.owned_by?(current_user)
+    flash[:alert] = "Only the event owner can perform that action."
+    redirect_to(root_path)
+  end
 end
