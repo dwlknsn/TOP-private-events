@@ -9,7 +9,7 @@ class SignUp < ApplicationRecord
 
   def cannot_attend_own_event
     return unless attendee_id == event.host_id
-    errors.add(:attendee_id, "cannot attend own event")
+    errors.add(:attendee_id, "host cannot sign up to attend own event")
   end
 
   def cannot_attend_same_event_twice

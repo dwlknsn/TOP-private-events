@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_11_16_063020) do
+ActiveRecord::Schema[8.0].define(version: 2024_11_17_044325) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -23,6 +23,19 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_16_063020) do
     t.text "description", null: false
     t.datetime "datetime", null: false
     t.index ["host_id"], name: "index_events_on_host_id"
+  end
+
+  create_table "invitations", force: :cascade do |t|
+    t.datetime "requested_at", default: "2024-11-17 05:01:20", null: false
+    t.datetime "accepted_at"
+    t.datetime "declined_at"
+    t.datetime "expires_at", null: false
+    t.bigint "event_id", null: false
+    t.bigint "invitee_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_invitations_on_event_id"
+    t.index ["invitee_id"], name: "index_invitations_on_invitee_id"
   end
 
   create_table "sign_ups", force: :cascade do |t|
@@ -47,6 +60,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_16_063020) do
   end
 
   add_foreign_key "events", "users", column: "host_id"
+  add_foreign_key "invitations", "events"
+  add_foreign_key "invitations", "users", column: "invitee_id"
   add_foreign_key "sign_ups", "events"
   add_foreign_key "sign_ups", "users", column: "attendee_id"
 end

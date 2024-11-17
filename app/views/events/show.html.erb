@@ -38,6 +38,18 @@
       <% end %>
     </ul>
   </p>
+
+  <p>
+    <strong>Open invitations:</strong>
+    <%= @event.invitations.open.count %>
+    <ul>
+      <% @event.invitations.open.each do |invitation| %>
+        <li>
+          <%= invitation.invitee.email %> - <%= link_to("Delete", event_invitation_path(@event, invitation), data: { turbo_method: :delete }) %>
+        </li>
+      <% end %>
+    </ul>
+  </p>
 </div>
 
 <div>
@@ -52,5 +64,9 @@
   <% if @event.hosted_by?(current_user) %>
     <%= link_to "Edit this event", edit_event_path(@event) %> |
     <%= link_to "Destroy this event", @event, data: { turbo_method: :delete } %>
+
+    <% if @inviteable_users.any? && @event.datetime > Time.now %>
+      <%= render "invitations/new", event: @event %>
+    <% end%>
   <% end %>
 </div>

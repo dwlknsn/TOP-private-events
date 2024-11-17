@@ -15,4 +15,18 @@ class User < ApplicationRecord
            through: :sign_ups,
            source: :event,
            class_name: "Event"
+
+  # Where the user is an Invitee
+  has_many :invitations, inverse_of: :invitee
+  has_many :invited_events,
+           through: :invitations,
+           source: :event,
+           class_name: "Event"
+
+  scope :attending, ->(event) { joins(:sign_ups).where(sign_ups: { event_id: event.id }) }
+  scope :invited_to, ->(event) { joins(:invitations).where(invitations: { event_id: event.id }) }
+  scope :hosting, ->(event) { where(id: event.host_id) }
+  scope :inviteable_to, ->(event) { where.not(id: attending(event))
+                                    .where.not(id: invited_to(event))
+                                    .where.not(id: hosting(event)) }
 end

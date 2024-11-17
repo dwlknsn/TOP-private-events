@@ -47,3 +47,15 @@
     </ul>
   <% end %>
 </div>
+
+<h1>Open Invitations</h1>
+
+<div id="open_invitations">
+  <% @invitations.each do |invitation| %>
+    <ul>
+      <li>
+        <%= link_to(invitation.event.name, invitation.event) %> <%= link_to "Accept", event_accept_invitation_path(invitation.event, invitation), data: { turbo_method: :patch } %> <%= link_to "Decline", event_decline_invitation_path(invitation.event, invitation), data: { turbo_method: :patch } %>
+      </li>
+    </ul>
+  <% end %>
+</div>

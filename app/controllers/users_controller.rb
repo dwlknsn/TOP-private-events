@@ -5,6 +5,7 @@ class UsersController < ApplicationController
       hosted: @user.hosted_events,
       attended: @user.attended_events
     }
+    @invitations = @user.invitations.open
   end
 
   private

@@ -13,6 +13,7 @@ puts "Seeding Database with Users, Events, and Sign Ups"
 u1 = User.create!(email: "a@a.com", password: "password")
 u2 = User.create!(email: "b@b.com", password: "password")
 u3 = User.create!(email: "c@c.com", password: "password")
+u4 = User.create!(email: "d@d.com", password: "password")
 
 # upcoming events
 n = 3

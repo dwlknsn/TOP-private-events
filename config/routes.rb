@@ -1,9 +1,13 @@
 Rails.application.routes.draw do
+  resources :invitations
   devise_for :users
   resources :users, only: :show
 
   resources :events do
+    resources :invitations
     resources :sign_ups
+    patch "/invitations/:id/accept" => "invitations#accept", as: :accept_invitation
+    patch "/invitations/:id/decline" => "invitations#decline", as: :decline_invitation
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

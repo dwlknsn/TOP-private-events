@@ -16,6 +16,7 @@ class EventsController < ApplicationController
 
   def show
     @sign_up = @event.sign_ups.where(attendee_id: current_user.id).take
+    @inviteable_users = User.inviteable_to(@event)
     respond_with(@event, @sign_up)
   end
 
