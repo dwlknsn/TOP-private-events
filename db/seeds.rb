@@ -14,27 +14,43 @@ u1 = User.create!(email: "a@a.com", password: "password")
 u2 = User.create!(email: "b@b.com", password: "password")
 u3 = User.create!(email: "c@c.com", password: "password")
 
-2.times do |i|
+# upcoming events
+n = 3
+n.times do |i|
   u1.hosted_events.create(
-    name: "#{u1.email}'s Event #{i + 1}",
+    name: "#{u1.email}'s Upcoming Event #{i + 1}",
     description: "Event #{i + 1} description",
     location: "#{u1.email}'s place",
-    datetime: Time.now + i.hours
+    datetime: (i + 1).days.from_now
   )
-end
 
-2.times do |i|
   u2.hosted_events.create(
-    name: "#{u2.email}'s Event #{i + 1}",
+    name: "#{u2.email}'s Upcoming Event #{i + 1}",
     description: "Event #{i + 1} description",
     location: "#{u2.email}'s place",
-    datetime: Time.now + i.hours
+    datetime: (i + 1).days.from_now
   )
 end
 
-u1.sign_ups.create(event: u2.hosted_events.first)
-u2.sign_ups.create(event: u1.hosted_events.first)
-u3.sign_ups.create(event: u1.hosted_events.first)
-u3.sign_ups.create(event: u1.hosted_events.last)
-u3.sign_ups.create(event: u2.hosted_events.first)
-u3.sign_ups.create(event: u2.hosted_events.last)
+# past events
+
+n.times do |i|
+  u1.hosted_events.create(
+    name: "#{u1.email}'s Historic Event #{n - i}",
+    description: "Event #{n - i} description",
+    location: "#{u1.email}'s place",
+    datetime: (i + 1).days.ago
+  )
+
+  u2.hosted_events.create(
+    name: "#{u2.email}'s Historic Event #{n - i}",
+    description: "Event #{n - i} description",
+    location: "#{u2.email}'s place",
+    datetime: (i + 1).days.ago
+  )
+end
+
+u1.attended_events << u2.hosted_events
+u2.attended_events << u1.hosted_events
+u3.attended_events << u1.hosted_events
+u3.attended_events << u2.hosted_events

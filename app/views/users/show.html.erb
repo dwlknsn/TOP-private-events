@@ -1,0 +1,49 @@
+<h1>Hosted Events</h1>
+
+<div id="hosted_events">
+
+<div id="upcoming_hosted_events">
+  <h3>Upcoming</h3>
+  <% @events[:hosted].upcoming.each do |event| %>
+    <ul>
+      <li>
+        <%= link_to(event.name, event) %> - <%= event.datetime %>
+      </li>
+    </ul>
+  <% end %>
+</div>
+
+<div id="historic_hosted_events">
+  <h3>Historic</h3>
+  <% @events[:hosted].past.each do |event| %>
+    <ul>
+      <li>
+        <%= link_to(event.name, event) %> - <%= event.datetime %>
+      </li>
+    </ul>
+  <% end %>
+</div>
+
+<h1>Attended Events</h1>
+
+<div id="upcoming_attended_events">
+  <h3>Upcoming</h3>
+  <% @events[:attended].upcoming.each do |event| %>
+    <ul>
+      <li>
+        <%= link_to(event.name, event) %> - <%= event.datetime %>
+      </li>
+    </ul>
+  <% end %>
+</div>
+
+<div id="historic_attended_events">
+  <h3>Historic</h3>
+  <% @events[:attended].past.each do |event| %>
+    <ul>
+      <li>
+        <%= link_to(event.name, event) %> - <%= event.datetime %>
+      </li>
+    </ul>
+  <% end %>
+</div>

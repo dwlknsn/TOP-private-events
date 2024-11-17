@@ -12,13 +12,20 @@ class Event < ApplicationRecord
   validates :datetime, presence: true
   validates :location, presence: true
 
-  scope :hosted_by, ->(user) { where(host_id: user.id) }
-  scope :not_hosted_by, ->(user) { where.not(host_id: user.id) }
-  scope :attended_by, ->(user) { joins(:sign_ups).where(sign_ups: { attendee_id: user.id }) }
-  scope :not_attended_by, ->(user) { where.not(id: attended_by(user)) }
+  scope :default_order, ->() { order(datetime: :asc) }
+  scope :hosted_by, ->(user) { where(host_id: user.id).default_order }
+  scope :not_hosted_by, ->(user) { where.not(host_id: user.id).default_order }
+  scope :attended_by, ->(user) { joins(:sign_ups).where(sign_ups: { attendee_id: user.id }).default_order }
+  scope :not_attended_by, ->(user) { where.not(id: attended_by(user)).default_order }
+  scope :attendable_by, ->(user) { not_attended_by(user).not_hosted_by(user) }
+  scope :past, ->() { where("datetime < ?", Time.now).order(datetime: :desc) }
+  scope :upcoming, ->() { where("datetime > ?", Time.now).default_order }
+  scope :after, ->(date) { where("datetime > ?", date).default_order }
+  scope :on, ->(date) { where(datetime: date.to_date.beginning_of_day..date.to_date.end_of_day).default_order }
+
   scope :attendable_by, ->(user) { not_attended_by(user).not_hosted_by(user) }
 
-  def owned_by?(user)
+  def hosted_by?(user)
     host_id == user.id
   end
 
@@ -27,6 +34,6 @@ class Event < ApplicationRecord
   end
 
   def attendable_by?(user)
-    !attended_by?(user) && !owned_by?(user)
+    !attended_by?(user) && !hosted_by?(user)
   end
 end

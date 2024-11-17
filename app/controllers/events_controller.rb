@@ -54,7 +54,7 @@ class EventsController < ApplicationController
   end
 
   def authorise_user!
-    return if @event.owned_by?(current_user)
+    return if @event.hosted_by?(current_user)
     flash[:alert] = "Only the event owner can perform that action."
     redirect_to(root_path)
   end
